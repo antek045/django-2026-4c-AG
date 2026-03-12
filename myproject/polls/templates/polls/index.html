@@ -1,13 +1,15 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link type="text/css" rel="stylesheet" href="../static/polls/styles.css">
+    <link rel="stylesheet" href="{% static 'polls/css/styles.css' %}">
     <title>Polls Index</title>
 </head>
 <body>
-    <h1>Welcome to the Polls Index</h1>
-    <p>This is the main page for the polls app.</p>
+    <header class="card">
+    <h1> Witaj na stronie z formularzem</h1>
+    <p>To jest główna strona aplikacji ankietowej.</p>
 </body>
 </html>
