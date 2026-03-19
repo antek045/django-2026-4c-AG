@@ -8,14 +8,17 @@
     <title>Polls Index</title>
 </head>
 <body>
-<header>
 <div class="card">
 <h1>Poznaj odpowiedź na swoje pytanie</h1>
 </div>
-<nav>
-    <a href="list_of_question.html" onclick="alert('Przechodzisz na stronę z pytaniami')">Kliknij mnie</a>
-<nav>
-</header>
-
+{% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+        <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
 </body>
 </html>
