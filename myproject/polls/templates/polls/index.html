@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'polls/css/styles.css' %}">
+    <title>Polls Index</title>
+</head>
+<body>
+<header>
+    <div class="card">
+        <h1>Poznaj odpowiedzi na pytania</h1>
+    </div>
+    <nav>
+        <a href="{% url 'polls:index' %}">Lista pytań</a>
+        <a href="{% url 'polls:index' %}" id="addQuestion">Dodaj swoje pytanie</a>
+        <a href="{% url 'polls:login' %}" id="loginBtn">Zaloguj się / Zarejestruj się</a>
+    </nav>
+</header>
+</body>
+</html>
