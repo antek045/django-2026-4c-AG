@@ -1,0 +1,11 @@
+h1 {
+    color: grey;
+    font-size: 24px;
+}
+li a {
+    color: green;
+}
+body {
+    background-image: url('../images/background.png');
+    background-size: cover;
+}
