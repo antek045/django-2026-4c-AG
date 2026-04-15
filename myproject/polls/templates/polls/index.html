@@ -1,22 +1,32 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="pl">
+{% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+
+{% comment %} {% load static %} 
+<!DOCTYPE html> 
+ <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{% static 'polls/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'polls/styles.css' %}">
     <title>Polls Index</title>
 </head>
 <body>
 <header>
-    <div class="card">
-        <h1>Poznaj odpowiedzi na pytania</h1>
-    </div>
-    <nav>
-        <a href="{% url 'polls:index' %}">Lista pytań</a>
-        <a href="{% url 'polls:index' %}" id="addQuestion">Dodaj swoje pytanie</a>
-        <a href="{% url 'polls:login' %}" id="loginBtn">Zaloguj się / Zarejestruj się</a>
-    </nav>
+<div class="card">
+<h1>Poznaj odpowiedź na swoje pytanie</h1>
+</div>
+<nav>
+    <a href="add_question.html">Dodaj swoje pytanie</a>
+    <a href="list_of_question.html" onclick="alert('Przechodzisz na stronę z pytaniami')">Kliknij mnie</a>
+<nav>
 </header>
+
 </body>
-</html>
+</html> {% endcomment %}
