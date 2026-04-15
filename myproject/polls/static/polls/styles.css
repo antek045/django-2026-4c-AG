@@ -13,5 +13,11 @@ li a {
     color: green;
 }
 body {
-    background: white url("./images/background.png") no-repeat;
+    background: white url("/static/polls/images/pobrane.jpg") no-repeat;
+}
+
+a {
+    width: 300px;
+    height: 150px;
+    background-image: linear-gradient(180deg, purple 0%,  );
 }

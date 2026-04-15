@@ -1,43 +1,44 @@
-from django.shortcuts import render
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login as auth_login
-from django.contrib.auth.models import User
-from django.contrib import messages
+from django.db.models import F
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
+from django.views import generic
 
-def login_register_view(request):
-    if request.method == 'POST':
-        action = request.POST.get('action')
-        
-        if action == 'login':
-            username = request.POST.get('login')
-            password = request.POST.get('password')
-            user = authenticate(request, username=username, password=password)
-            
-            if user is not None:
-                auth_login(request, user)
-                return redirect('polls:index')
-            else:
-                messages.error(request, 'Nieprawidłowy login lub hasło.')
+from .models import Choice, Question
 
-        
-        elif action == 'register':
-            username = request.POST.get('login')
-            email = request.POST.get('email')
-            pass1 = request.POST.get('password')
-            pass2 = request.POST.get('password2')
+class IndexView(generic.ListView):
+    template_name = "polls/index.html"
+    context_object_name = "latest_question_list"
 
-            if pass1 != pass2:
-                messages.error(request, 'Hasła nie są takie same.')
-            elif User.objects.filter(username=username).exists():
-                messages.error(request, 'Ten login jest już zajęty.')
-            else:
-                User.objects.create_user(username=username, email=email, password=pass1)
-                messages.success(request, 'Konto utworzone! Możesz się zalogować.')
-                
-    return render(request, 'polls/login.html')
+    def get_queryset(self):
+        return Question.objects.order_by("-pub_date")[:5]
 
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = "polls/detail.html"
 
-def index(request):
-    return render(request, 'polls/index.html')
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = "polls/results.html"
+
+def vote(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    try:
+        selected_choice = question.choice_set.get(pk=request.POST["choice"])
+    except (KeyError, Choice.DoesNotExist):
+        return render(
+            request,
+            "polls/detail.html",
+            {
+                "question": question,
+                "error_message": "You didn't select a choice.",
+            },
+        )
+    else:
+        selected_choice.votes = F("votes") + 1
+        selected_choice.save()
+        return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
+
 def list_of_question(request):
-    return render(request, 'polls/list_of_question.html')
+    questions = Question.objects.all()
+    return render(request, 'polls/list_of_question.html', {'questions': questions})
